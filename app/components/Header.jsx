@@ -7,6 +7,97 @@ export default function Header() {
   const [mensDropdownOpen, setMensDropdownOpen] = useState(false);
   const [womensDropdownOpen, setWomensDropdownOpen] = useState(false);
   const [saleDropdownOpen, setSaleDropdownOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState(null);
+
+  // Men's categories and subcategories
+  const mensCategories = {
+    'business-professional': {
+      title: 'BUSINESS PROFESSIONAL',
+      items: ['JACKETS', 'SUITS', 'SHOP ALL']
+    },
+    'outerwear': {
+      title: 'OUTERWEAR',
+      items: ['SHOP ALL']
+    },
+    'leathers': {
+      title: 'LEATHERS',
+      items: ['SHOP ALL']
+    },
+    'sport-shirts': {
+      title: 'SPORT SHIRTS',
+      items: ['HAUPT-GERMANY', 'SILK SHIRTS', 'SHOP ALL']
+    },
+    'sweaters': {
+      title: 'SWEATERS',
+      items: ['CASHMERE', 'FANCY DESIGNS', 'SHOP ALL']
+    },
+    'shoes': {
+      title: 'SHOES',
+      items: ['BRUNO MAGLI', 'TRASK', 'EXOTIC SKINS', 'URBAN SPORT', 'SHOP ALL']
+    },
+    'accessories': {
+      title: 'ACCESSORIES',
+      items: ['TIES', 'EXTRA LONG TIES', 'BOW TIES', 'CUFF LINKS', 'SHOP ALL']
+    },
+    'belts': {
+      title: 'BELTS',
+      items: ['SHOP ALL']
+    },
+    'sale': {
+      title: 'SALE',
+      items: ['SHOP ALL'],
+      isSale: true
+    }
+  };
+
+  // Women's categories and subcategories
+  const womensCategories = {
+    'leathers': {
+      title: 'LEATHERS',
+      items: ['SHORT JACKETS', 'LONG JACKETS', 'SHOP ALL']
+    },
+    'jackets': {
+      title: 'JACKETS',
+      items: ['BUSINESS & PROFESSIONAL', 'SPECIAL OCCASIONS', 'CASUAL JACKETS', 'SHACKETS', 'SHOP ALL']
+    },
+    'tops': {
+      title: 'TOPS',
+      items: ['BLOUSES', 'SHACKETS', 'SHOP ALL']
+    },
+    'knitwear': {
+      title: 'KNITWEAR',
+      items: ['CASHMERE', 'SHOP ALL']
+    },
+    'coats': {
+      title: 'COATS & OUTERWEAR',
+      items: ['RAINWEAR', 'SHOP ALL']
+    },
+    'dresses': {
+      title: 'DRESSES',
+      items: ['DAY DRESSES', 'PARTY & COCKTAIL DRESSES', 'GOWNS', 'SHOP ALL']
+    },
+    'pool': {
+      title: 'POOL & LOUNGEWEAR',
+      items: ['SHOP ALL']
+    },
+    'bottoms': {
+      title: 'BOTTOMS',
+      items: ['DENIM', 'SHOP ALL']
+    },
+    'accessories': {
+      title: 'ACCESSORIES',
+      items: ['PURSE', 'SHOP ALL']
+    },
+    'designers': {
+      title: 'DESIGNERS',
+      items: ['KINROSS', 'FRANK LYMAN', 'HALE BOB', 'KOMAROV', 'TADASHI SHOJI', 'ANORAK', 'SHOP ALL']
+    },
+    'sale': {
+      title: 'SALE',
+      items: ['SHOP ALL'],
+      isSale: true
+    }
+  };
 
   return (
     <header className="w-full border-b border-gray-200 shadow-sm bg-white relative">
@@ -26,24 +117,198 @@ export default function Header() {
           <div 
             className="relative"
             onMouseEnter={() => setMensDropdownOpen(true)}
-            onMouseLeave={() => setMensDropdownOpen(false)}
+            onMouseLeave={() => {
+              setMensDropdownOpen(false);
+              setActiveCategory(null);
+            }}
           >
             <a href="/mens" className="hover:underline cursor-pointer">Men</a>
+            {mensDropdownOpen && (
+              <div 
+                className="absolute top-full left-0 bg-white border border-gray-200 shadow-lg rounded-md z-50 min-w-[600px]" 
+                role="menu" 
+                aria-label="Men's clothing categories"
+                onMouseEnter={() => setMensDropdownOpen(true)}
+                onMouseLeave={() => {
+                  setMensDropdownOpen(false);
+                  setActiveCategory(null);
+                }}
+              >
+                <div className="flex">
+                  {/* Categories Column */}
+                  <div className="w-1/2 p-6 border-r border-gray-200">
+                    <h3 className="font-bold text-sm mb-4 uppercase text-black">CATEGORIES</h3>
+                    <ul className="space-y-2">
+                      {Object.entries(mensCategories).map(([key, category]) => (
+                        <li key={key}>
+                          <button
+                            className={`w-full text-left text-xs uppercase cursor-pointer hover:text-purple-600 ${
+                              activeCategory === key ? 'text-purple-600' : 'text-black'
+                            } ${category.isSale ? 'text-red-600 font-bold' : ''}`}
+                            onMouseEnter={() => setActiveCategory(key)}
+                            role="menuitem"
+                            aria-label={`${category.title} category`}
+                          >
+                            {category.title}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  {/* Subcategories Column */}
+                  <div className="w-1/2 p-6">
+                    {activeCategory && mensCategories[activeCategory] && (
+                      <>
+                        <h3 className="font-bold text-sm mb-4 uppercase text-black">
+                          {mensCategories[activeCategory].title}
+                        </h3>
+                        <ul className="space-y-2">
+                          {mensCategories[activeCategory].items.map((item, index) => (
+                            <li key={index}>
+                              <a 
+                                href={`/mens/${activeCategory}/${item.toLowerCase().replace(/\s+/g, '-')}`}
+                                className="text-xs uppercase text-black hover:text-purple-600 cursor-pointer"
+                                role="menuitem"
+                                aria-label={item}
+                              >
+                                {item}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
+          
           <div 
             className="relative"
             onMouseEnter={() => setWomensDropdownOpen(true)}
-            onMouseLeave={() => setWomensDropdownOpen(false)}
+            onMouseLeave={() => {
+              setWomensDropdownOpen(false);
+              setActiveCategory(null);
+            }}
           >
             <a href="/womens" className="hover:underline cursor-pointer">Women</a>
+            {womensDropdownOpen && (
+              <div 
+                className="absolute top-full left-0 bg-white border border-gray-200 shadow-lg rounded-md z-50 min-w-[600px]" 
+                role="menu" 
+                aria-label="Women's clothing categories"
+                onMouseEnter={() => setWomensDropdownOpen(true)}
+                onMouseLeave={() => {
+                  setWomensDropdownOpen(false);
+                  setActiveCategory(null);
+                }}
+              >
+                <div className="flex">
+                  {/* Categories Column */}
+                  <div className="w-1/2 p-6 border-r border-gray-200">
+                    <h3 className="font-bold text-sm mb-4 uppercase text-black">CATEGORIES</h3>
+                    <ul className="space-y-2">
+                      {Object.entries(womensCategories).map(([key, category]) => (
+                        <li key={key}>
+                          <button
+                            className={`w-full text-left text-xs uppercase cursor-pointer hover:text-purple-600 ${
+                              activeCategory === key ? 'text-purple-600' : 'text-black'
+                            } ${category.isSale ? 'text-red-600 font-bold' : ''}`}
+                            onMouseEnter={() => setActiveCategory(key)}
+                            role="menuitem"
+                            aria-label={`${category.title} category`}
+                          >
+                            {category.title}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  {/* Subcategories Column */}
+                  <div className="w-1/2 p-6">
+                    {activeCategory && womensCategories[activeCategory] && (
+                      <>
+                        <h3 className="font-bold text-sm mb-4 uppercase text-black">
+                          {womensCategories[activeCategory].title}
+                        </h3>
+                        <ul className="space-y-2">
+                          {womensCategories[activeCategory].items.map((item, index) => (
+                            <li key={index}>
+                              <a 
+                                href={`/womens/${activeCategory}/${item.toLowerCase().replace(/\s+/g, '-')}`}
+                                className="text-xs uppercase text-black hover:text-purple-600 cursor-pointer"
+                                role="menuitem"
+                                aria-label={item}
+                              >
+                                {item}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
+          
           <a href="/stores" className="hover:underline cursor-pointer">Stores</a>
+          
           <div 
             className="relative"
             onMouseEnter={() => setSaleDropdownOpen(true)}
             onMouseLeave={() => setSaleDropdownOpen(false)}
           >
             <a href="/sale" className="hover:underline cursor-pointer">Sale</a>
+            {saleDropdownOpen && (
+              <div 
+                className="absolute top-full left-0 bg-white border border-gray-200 shadow-lg rounded-md z-50 min-w-[400px]" 
+                role="menu" 
+                aria-label="Sale categories"
+                onMouseEnter={() => setSaleDropdownOpen(true)}
+                onMouseLeave={() => setSaleDropdownOpen(false)}
+              >
+                <div className="p-6">
+                  <h3 className="font-bold text-sm mb-4 uppercase text-black">SALE CATEGORIES</h3>
+                  <div className="grid grid-cols-2 gap-8">
+                    <div>
+                      <h4 className="font-bold text-xs mb-3 uppercase text-black">WOMEN'S SALE</h4>
+                      <ul className="space-y-2">
+                        <li>
+                          <a 
+                            href="/womens/sale" 
+                            className="text-xs uppercase text-black hover:text-purple-600 cursor-pointer"
+                            role="menuitem"
+                            aria-label="Women's sale items"
+                          >
+                            SHOP ALL WOMEN'S SALE
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-xs mb-3 uppercase text-black">MEN'S SALE</h4>
+                      <ul className="space-y-2">
+                        <li>
+                          <a 
+                            href="/mens/sale" 
+                            className="text-xs uppercase text-black hover:text-purple-600 cursor-pointer"
+                            role="menuitem"
+                            aria-label="Men's sale items"
+                          >
+                            SHOP ALL MEN'S SALE
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </nav>
 
@@ -74,212 +339,7 @@ export default function Header() {
         </button>
       </div>
 
-      {/* Dropdown Menus - Positioned outside the main container */}
-      {mensDropdownOpen && (
-        <div className="absolute top-full left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50" role="menu" aria-label="Men's clothing categories">
-          <div className="max-w-screen-xl mx-auto px-4 py-8">
-            <div className="grid grid-cols-3 gap-16">
-              <div className="space-y-8">
-                <div>
-                                          <h3 className="font-bold text-sm mb-4 uppercase text-black" id="mens-business-professional">BUSINESS PROFESSIONAL</h3>
-                                          <ul className="space-y-3" role="group" aria-labelledby="mens-business-professional">
-                          <li><a href="/mens/jackets" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Men's jackets">JACKETS</a></li>
-                          <li><a href="/mens/suits" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Men's suits">SUITS</a></li>
-                          <li><a href="/mens/shop-all" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Shop all men's business professional">SHOP ALL</a></li>
-                        </ul>
-                </div>
-                <div>
-                  <h3 className="font-bold text-sm mb-4 uppercase text-black" id="mens-outerwear">OUTERWEAR</h3>
-                                          <ul className="space-y-3" role="group" aria-labelledby="mens-outerwear">
-                          <li><a href="/mens/outerwear" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Shop all men's outerwear">SHOP ALL</a></li>
-                        </ul>
-                </div>
-                <div>
-                  <h3 className="font-bold text-sm mb-4 uppercase text-black" id="mens-leathers">LEATHERS</h3>
-                                          <ul className="space-y-3" role="group" aria-labelledby="mens-leathers">
-                          <li><a href="/mens/leathers" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Shop all men's leathers">SHOP ALL</a></li>
-                        </ul>
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-sm mb-4 uppercase text-black" id="mens-sport-shirts">SPORT SHIRTS</h3>
-                        <ul className="space-y-3" role="group" aria-labelledby="mens-sport-shirts">
-                          <li><a href="/mens/haupt-germany" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Haupt-Germany sport shirts">HAUPT-GERMANY</a></li>
-                          <li><a href="/mens/silk-shirts" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Silk shirts">SILK SHIRTS</a></li>
-                          <li><a href="/mens/shop-all" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Shop all men's sport shirts">SHOP ALL</a></li>
-                        </ul>
-                </div>
-              </div>
-              <div className="space-y-8">
-                <div>
-                  <h3 className="font-bold text-sm mb-4 uppercase text-black" id="mens-sweaters">SWEATERS</h3>
-                                          <ul className="space-y-3" role="group" aria-labelledby="mens-sweaters">
-                          <li><a href="/mens/cashmere" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Cashmere sweaters">CASHMERE</a></li>
-                          <li><a href="/mens/fancy-designs" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Fancy design sweaters">FANCY DESIGNS</a></li>
-                          <li><a href="/mens/shop-all" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Shop all men's sweaters">SHOP ALL</a></li>
-                        </ul>
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-sm mb-4 uppercase text-black" id="mens-shoes">SHOES</h3>
-                        <ul className="space-y-3" role="group" aria-labelledby="mens-shoes">
-                          <li><a href="/mens/bruno-magli" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Bruno Magli shoes">BRUNO MAGLI</a></li>
-                          <li><a href="/mens/trask" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Trask shoes">TRASK</a></li>
-                          <li><a href="/mens/exotic-skins" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Exotic skin shoes">EXOTIC SKINS</a></li>
-                          <li><a href="/mens/urban-sport" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Urban sport shoes">URBAN SPORT</a></li>
-                          <li><a href="/mens/shop-all" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Shop all men's shoes">SHOP ALL</a></li>
-                        </ul>
-                </div>
-              </div>
-              <div className="space-y-8">
-                <div>
-                  <h3 className="font-bold text-sm mb-4 uppercase text-black" id="mens-accessories">ACCESSORIES</h3>
-                                          <ul className="space-y-3" role="group" aria-labelledby="mens-accessories">
-                          <li><a href="/mens/ties" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Men's ties">TIES</a></li>
-                          <li><a href="/mens/extra-long-ties" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Extra long ties">EXTRA LONG TIES</a></li>
-                          <li><a href="/mens/bow-ties" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Bow ties">BOW TIES</a></li>
-                          <li><a href="/mens/cuff-links" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Cuff links">CUFF LINKS</a></li>
-                          <li><a href="/mens/shop-all" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Shop all men's accessories">SHOP ALL</a></li>
-                        </ul>
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-sm mb-4 uppercase text-black" id="mens-belts">BELTS</h3>
-                        <ul className="space-y-3" role="group" aria-labelledby="mens-belts">
-                          <li><a href="/mens/belts" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Shop all men's belts">SHOP ALL</a></li>
-                        </ul>
-                </div>
-                <div>
-                  <a href="/mens/sale" className="text-red-600 font-bold text-sm hover:underline cursor-pointer uppercase" role="menuitem" aria-label="Men's sale items">SALE</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {womensDropdownOpen && (
-        <div className="absolute top-full left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50" role="menu" aria-label="Women's clothing categories">
-          <div className="max-w-screen-xl mx-auto px-4 py-8">
-            <div className="grid grid-cols-4 gap-16">
-              <div className="space-y-8">
-                <div>
-                  <h3 className="font-bold text-sm mb-4 uppercase text-black" id="womens-leathers">LEATHERS</h3>
-                                          <ul className="space-y-3" role="group" aria-labelledby="womens-leathers">
-                          <li><a href="/womens/short-jackets" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Short leather jackets">SHORT JACKETS</a></li>
-                          <li><a href="/womens/long-jackets" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Long leather jackets">LONG JACKETS</a></li>
-                          <li><a href="/womens/shop-all" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Shop all women's leathers">SHOP ALL</a></li>
-                        </ul>
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-sm mb-4 uppercase text-black" id="womens-jackets">JACKETS</h3>
-                        <ul className="space-y-3" role="group" aria-labelledby="womens-jackets">
-                          <li><a href="/womens/business-professional" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Business and professional jackets">BUSINESS & PROFESSIONAL</a></li>
-                          <li><a href="/womens/special-occasions" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Special occasions jackets">SPECIAL OCCASIONS</a></li>
-                          <li><a href="/womens/casual-jackets" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Casual jackets">CASUAL JACKETS</a></li>
-                          <li><a href="/womens/shackets" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Shackets">SHACKETS</a></li>
-                          <li><a href="/womens/shop-all" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Shop all women's jackets">SHOP ALL</a></li>
-                        </ul>
-                </div>
-              </div>
-              <div className="space-y-8">
-                <div>
-                  <h3 className="font-bold text-sm mb-4 uppercase text-black" id="womens-tops">TOPS</h3>
-                                          <ul className="space-y-3" role="group" aria-labelledby="womens-tops">
-                          <li><a href="/womens/blouses" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Women's blouses">BLOUSES</a></li>
-                          <li><a href="/womens/shackets" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Shackets">SHACKETS</a></li>
-                          <li><a href="/womens/shop-all" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Shop all women's tops">SHOP ALL</a></li>
-                        </ul>
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-sm mb-4 uppercase text-black" id="womens-knitwear">KNITWEAR</h3>
-                        <ul className="space-y-3" role="group" aria-labelledby="womens-knitwear">
-                          <li><a href="/womens/cashmere" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Cashmere knitwear">CASHMERE</a></li>
-                          <li><a href="/womens/shop-all" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Shop all women's knitwear">SHOP ALL</a></li>
-                        </ul>
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-sm mb-4 uppercase text-black" id="womens-coats">COATS & OUTERWEAR</h3>
-                        <ul className="space-y-3" role="group" aria-labelledby="womens-coats">
-                          <li><a href="/womens/rainwear" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Rainwear">RAINWEAR</a></li>
-                          <li><a href="/womens/shop-all" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Shop all women's coats and outerwear">SHOP ALL</a></li>
-                        </ul>
-                </div>
-              </div>
-              <div className="space-y-8">
-                <div>
-                                          <h3 className="font-bold text-sm mb-4 uppercase text-black" id="womens-dresses">DRESSES</h3>
-                                          <ul className="space-y-3" role="group" aria-labelledby="womens-dresses">
-                          <li><a href="/womens/day-dresses" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Day dresses">DAY DRESSES</a></li>
-                          <li><a href="/womens/party-cocktail-dresses" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Party and cocktail dresses">PARTY & COCKTAIL DRESSES</a></li>
-                          <li><a href="/womens/gowns" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Gowns">GOWNS</a></li>
-                          <li><a href="/womens/shop-all" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Shop all women's dresses">SHOP ALL</a></li>
-                        </ul>
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-sm mb-4 uppercase text-black" id="womens-pool">POOL & LOUNGEWEAR</h3>
-                        <ul className="space-y-3" role="group" aria-labelledby="womens-pool">
-                          <li><a href="/womens/pool-loungewear" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Shop all pool and loungewear">SHOP ALL</a></li>
-                        </ul>
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-sm mb-4 uppercase text-black" id="womens-bottoms">BOTTOMS</h3>
-                        <ul className="space-y-3" role="group" aria-labelledby="womens-bottoms">
-                          <li><a href="/womens/denim" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Denim bottoms">DENIM</a></li>
-                          <li><a href="/womens/shop-all" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Shop all women's bottoms">SHOP ALL</a></li>
-                        </ul>
-                </div>
-              </div>
-              <div className="space-y-8">
-                <div>
-                                          <h3 className="font-bold text-sm mb-4 uppercase text-black" id="womens-accessories">ACCESSORIES</h3>
-                                          <ul className="space-y-3" role="group" aria-labelledby="womens-accessories">
-                          <li><a href="/womens/purses" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Women's purses">PURSE</a></li>
-                          <li><a href="/womens/shop-all" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Shop all women's accessories">SHOP ALL</a></li>
-                        </ul>
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-sm mb-4 uppercase text-black" id="womens-designers">DESIGNERS</h3>
-                        <ul className="space-y-3" role="group" aria-labelledby="womens-designers">
-                          <li><a href="/womens/kinross" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Kinross designer">KINROSS</a></li>
-                          <li><a href="/womens/frank-lyman" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Frank Lyman designer">FRANK LYMAN</a></li>
-                          <li><a href="/womens/hale-bob" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Hale Bob designer">HALE BOB</a></li>
-                          <li><a href="/womens/komarov" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Komarov designer">KOMAROV</a></li>
-                          <li><a href="/womens/tadashi-shoji" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Tadashi Shoji designer">TADASHI SHOJI</a></li>
-                          <li><a href="/womens/anorak" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Anorak designer">ANORAK</a></li>
-                          <li><a href="/womens/shop-all" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Shop all women's designers">SHOP ALL</a></li>
-                        </ul>
-                </div>
-                <div>
-                  <a href="/womens/sale" className="text-red-600 font-bold text-sm hover:underline cursor-pointer uppercase" role="menuitem" aria-label="Women's sale items">SALE</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {saleDropdownOpen && (
-        <div className="absolute top-full left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50" role="menu" aria-label="Sale categories">
-          <div className="max-w-screen-xl mx-auto px-4 py-8">
-            <div className="grid grid-cols-2 gap-16">
-              <div className="space-y-8">
-                <div>
-                                          <h3 className="font-bold text-sm mb-4 uppercase text-black" id="womens-sale">WOMEN'S SALE</h3>
-                                          <ul className="space-y-3" role="group" aria-labelledby="womens-sale">
-                          <li><a href="/womens/sale" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Women's sale items">SHOP ALL WOMEN'S SALE</a></li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div className="space-y-8">
-                      <div>
-                        <h3 className="font-bold text-sm mb-4 uppercase text-black" id="mens-sale">MEN'S SALE</h3>
-                        <ul className="space-y-3" role="group" aria-labelledby="mens-sale">
-                          <li><a href="/mens/sale" className="hover:text-purple-600 cursor-pointer text-xs uppercase text-black" role="menuitem" aria-label="Men's sale items">SHOP ALL MEN'S SALE</a></li>
-                        </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      
 
       {/* Mobile Nav */}
       {menuOpen && (
