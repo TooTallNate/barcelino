@@ -219,8 +219,6 @@ export default function Header() {
                     <li><a href="/womens/pool-loungewear" className="hover:text-purple-600 cursor-pointer text-xs uppercase" role="menuitem" aria-label="Shop all pool and loungewear">SHOP ALL</a></li>
                   </ul>
                 </div>
-              </div>
-              <div className="space-y-8">
                 <div>
                   <h3 className="font-bold text-sm mb-4 uppercase" id="womens-bottoms">BOTTOMS</h3>
                   <ul className="space-y-3" role="group" aria-labelledby="womens-bottoms">
@@ -228,15 +226,14 @@ export default function Header() {
                     <li><a href="/womens/shop-all" className="hover:text-purple-600 cursor-pointer text-xs uppercase" role="menuitem" aria-label="Shop all women's bottoms">SHOP ALL</a></li>
                   </ul>
                 </div>
+              </div>
+              <div className="space-y-8">
                 <div>
                   <h3 className="font-bold text-sm mb-4 uppercase" id="womens-accessories">ACCESSORIES</h3>
                   <ul className="space-y-3" role="group" aria-labelledby="womens-accessories">
                     <li><a href="/womens/purses" className="hover:text-purple-600 cursor-pointer text-xs uppercase" role="menuitem" aria-label="Women's purses">PURSE</a></li>
                     <li><a href="/womens/shop-all" className="hover:text-purple-600 cursor-pointer text-xs uppercase" role="menuitem" aria-label="Shop all women's accessories">SHOP ALL</a></li>
                   </ul>
-                </div>
-                <div>
-                  <a href="/womens/sale" className="text-red-600 font-bold text-sm hover:underline cursor-pointer uppercase" role="menuitem" aria-label="Women's sale items">SALE</a>
                 </div>
                 <div>
                   <h3 className="font-bold text-sm mb-4 uppercase" id="womens-designers">DESIGNERS</h3>
@@ -249,6 +246,9 @@ export default function Header() {
                     <li><a href="/womens/anorak" className="hover:text-purple-600 cursor-pointer text-xs uppercase" role="menuitem" aria-label="Anorak designer">ANORAK</a></li>
                     <li><a href="/womens/shop-all" className="hover:text-purple-600 cursor-pointer text-xs uppercase" role="menuitem" aria-label="Shop all women's designers">SHOP ALL</a></li>
                   </ul>
+                </div>
+                <div>
+                  <a href="/womens/sale" className="text-red-600 font-bold text-sm hover:underline cursor-pointer uppercase" role="menuitem" aria-label="Women's sale items">SALE</a>
                 </div>
               </div>
             </div>
