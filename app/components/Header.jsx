@@ -145,8 +145,8 @@ export default function Header() {
                       {Object.entries(mensCategories).map(([key, category]) => (
                         <li key={key}>
                           <button
-                            className={`w-full text-left text-xs uppercase cursor-pointer hover:text-purple-600 ${
-                              activeCategory === key ? 'text-purple-600' : 'text-black'
+                            className={`w-full text-left text-xs uppercase cursor-pointer hover:text-amber-600 ${
+                              activeCategory === key ? 'text-amber-600' : 'text-black'
                             } ${category.isSale ? 'text-red-600 font-bold' : ''}`}
                             onMouseEnter={() => setActiveCategory(key)}
                             role="menuitem"
@@ -171,7 +171,7 @@ export default function Header() {
                             <li key={index}>
                               <a 
                                 href={`/mens/${activeCategory}/${item.toLowerCase().replace(/\s+/g, '-')}`}
-                                className="text-xs uppercase text-black hover:text-purple-600 cursor-pointer"
+                                className="text-xs uppercase text-black hover:text-amber-600 cursor-pointer"
                                 role="menuitem"
                                 aria-label={item}
                               >
@@ -216,8 +216,8 @@ export default function Header() {
                       {Object.entries(womensCategories).map(([key, category]) => (
                         <li key={key}>
                           <button
-                            className={`w-full text-left text-xs uppercase cursor-pointer hover:text-purple-600 ${
-                              activeCategory === key ? 'text-purple-600' : 'text-black'
+                            className={`w-full text-left text-xs uppercase cursor-pointer hover:text-amber-600 ${
+                              activeCategory === key ? 'text-amber-600' : 'text-black'
                             } ${category.isSale ? 'text-red-600 font-bold' : ''}`}
                             onMouseEnter={() => setActiveCategory(key)}
                             role="menuitem"
@@ -242,7 +242,7 @@ export default function Header() {
                             <li key={index}>
                               <a 
                                 href={`/womens/${activeCategory}/${item.toLowerCase().replace(/\s+/g, '-')}`}
-                                className="text-xs uppercase text-black hover:text-purple-600 cursor-pointer"
+                                className="text-xs uppercase text-black hover:text-amber-600 cursor-pointer"
                                 role="menuitem"
                                 aria-label={item}
                               >
@@ -284,7 +284,7 @@ export default function Header() {
                         <li>
                           <a 
                             href="/womens/sale" 
-                            className="text-xs uppercase text-black hover:text-purple-600 cursor-pointer"
+                            className="text-xs uppercase text-black hover:text-amber-600 cursor-pointer"
                             role="menuitem"
                             aria-label="Women's sale items"
                           >
@@ -299,7 +299,7 @@ export default function Header() {
                         <li>
                           <a 
                             href="/mens/sale" 
-                            className="text-xs uppercase text-black hover:text-purple-600 cursor-pointer"
+                            className="text-xs uppercase text-black hover:text-amber-600 cursor-pointer"
                             role="menuitem"
                             aria-label="Men's sale items"
                           >
@@ -319,7 +319,7 @@ export default function Header() {
         <div className="hidden md:flex items-center gap-4">
           <a
             href="/careers"
-            className="bg-black text-white px-4 py-1.5 rounded hover:bg-gray-800 text-sm cursor-pointer"
+            className="bg-black text-white px-4 py-1.5 rounded hover:bg-gray-600 text-sm cursor-pointer"
           >
             Careers
           </a>
@@ -536,7 +536,7 @@ export default function Header() {
           <div className="pt-2">
             <a
               href="/careers"
-              className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 cursor-pointer block text-center font-semibold"
+              className="bg-black text-white px-4 py-2 rounded hover:bg-gray-600 cursor-pointer block text-center font-semibold"
               role="menuitem"
               aria-label="View career opportunities"
             >
